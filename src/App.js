@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-
+import Layout from './components/Layout/Layout';
+import LeftSide from './containers/LeftSide/LeftSide';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        .
-      </div>
+      <Layout>
+        <LeftSide />
+      </Layout>
     );
   }
 }
