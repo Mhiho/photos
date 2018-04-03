@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import Photo from '../Photo/Photo';
+import Photos from '../Photos/Photos';
 
 
 class LeftSide extends Component {
@@ -11,7 +11,7 @@ render() {
 
   return (
     <Fragment>
-      <Photo />
+      <Photos />
     </Fragment>
 
   )

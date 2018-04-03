@@ -1,8 +1,9 @@
 import React, { Component, Fragment} from 'react';
+import Photo from '../../components/Photo/Photo';
 import axios from 'axios';
-import classes from './Photo.css';
+import classes from './Photos.css';
 
-class Photo extends Component{
+class Photos extends Component{
   constructor(props){
     super(props)
   }
@@ -26,13 +27,16 @@ class Photo extends Component{
 
   render() {
     const renderPhotos = this.state.photos.map(photo =>{
-      return (<li key={photo.id}>{photo.title}</li>)
+      return <Photo
+              title={photo.title}
+              key={photo.id}
+              image={photo.url}
+            />
     })
     return (
-        <ul>
-          {renderPhotos}
-        </ul>
-
+            <div>
+              {renderPhotos}
+            </div>
     )
   }
 
@@ -41,4 +45,4 @@ class Photo extends Component{
 }
 
 
-export default Photo;
+export default Photos;

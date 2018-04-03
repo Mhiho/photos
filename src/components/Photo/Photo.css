@@ -1,0 +1,5 @@
+.Photo{
+  border: 2px solid black;
+  min-width: 150px;
+  max-height: 150px;
+}
