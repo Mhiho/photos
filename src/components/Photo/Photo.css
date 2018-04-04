@@ -1,5 +1,13 @@
-.Photo{
-  border: 2px solid black;
-  min-width: 150px;
-  max-height: 150px;
+
+.Container {
+  display: flex;
+}
+
+.Title {
+  width: 50%;
+  height: 60px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
 }

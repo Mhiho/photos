@@ -3,9 +3,10 @@ import classes from './Photo.css'
 
 
 const photo = (props) => (
-  <div>
-    <img src={props.image} alt={props.alt}/>
-    <h1>{props.title}</h1>
+
+  <div className={classes.Container}>
+    <div className={classes.Title}>{props.title}</div>
+    <img className={classes.Image} src={props.thumbnail} alt={props.alt}/>
   </div>
 )
 

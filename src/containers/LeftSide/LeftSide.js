@@ -1,22 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import Photos from '../Photos/Photos';
-
+import classes from './LeftSide.css';
 
 class LeftSide extends Component {
-  constructor(props) {
-    super(props)
-  }
 
 render() {
 
   return (
     <Fragment>
-      <Photos />
+      <div className={classes.LeftSide}>
+        <Photos />
+      </div>
     </Fragment>
 
   )
 }
-
 
 }
 

@@ -21,7 +21,7 @@ class Photos extends Component{
             ...photo
           }
         })
-        this.setState({photos: photos})
+        this.setState({photos: updatedPhotos})
       });
   };
 
@@ -30,7 +30,6 @@ class Photos extends Component{
       return <Photo
               title={photo.title}
               key={photo.id}
-              image={photo.url}
             />
     })
     return (
