@@ -1,0 +1,38 @@
+.LeftSide {
+  float: left;
+  margin-bottom: 100px;
+  width: 50%;
+}
+
+
+.Container {
+  display: flex;
+}
+
+.Title {
+  width: 50%;
+  height: 60px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.Container {
+  display: flex;
+}
+
+.Title {
+  width: 50%;
+  height: 60px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.RightSide {
+  margin-bottom: 100px;
+  width: 50%;
+  float: left;
+}
