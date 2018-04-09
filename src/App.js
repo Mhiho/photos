@@ -1,19 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import Layout from './components/Layout/Layout';
 import axios from 'axios';
 import PaginDiv from './components/PaginDiv/PaginDiv';
 import Photo from './components/Photo/Photo';
 import classes from './App.css';
 import PhotosOnHover from './components/PhotosOnHover/PhotosOnHover';
+import _ from 'lodash';
+import {  BrowserRouter as Router, Link} from 'react-router-dom';
 
 
-
-
-class App extends Component {
+class App extends PureComponent {
+  constructor(props){
+    super(props)
+  }
     state = {
         photos: [],
         initialPage: 1,
-        ygrec: 12
+        ygrec: 12,
+        hover: false,
+        thisPhoto: 0,
+        showPhoto: false,
+        onePhoto: {}
     }
     componentDidMount() {
         axios.get('https://jsonplaceholder.typicode.com/photos')
@@ -46,7 +53,9 @@ class App extends Component {
 
 
                 this.setState({
-                        initialPage: this.state.initialPage - 1
+                        initialPage: this.state.initialPage - 1,
+                        thisPhoto: null,
+                        showPhoto: false
                     },
                     () => this.setState({
                         photos: photos.slice(this.state.initialPage * this.state.ygrec, this.state.initialPage * this.state.ygrec + this.state.ygrec).
@@ -66,7 +75,9 @@ class App extends Component {
                 const photos = response.data;
 
                 this.setState({
-                        initialPage: this.state.initialPage + 1
+                        initialPage: this.state.initialPage + 1,
+                        thisPhoto: null,
+                        showPhoto: false
                     },
                     () => this.setState({
                         photos: photos.slice(this.state.initialPage * this.state.ygrec, this.state.initialPage * this.state.ygrec + this.state.ygrec).map((photo, id) => {
@@ -78,70 +89,76 @@ class App extends Component {
             })
     }
 
+
+    handleMouseHoverIn() {
+      this.setState({hover: true});
+    }
+
+    handleMouseHoverOut() {
+      this.setState({hover: false});
+    }
+    thisPhoto(i,event){
+      this.setState({ thisPhoto: i},
+      ()=> {
+        let top = this.state.thisPhoto;
+        axios.get(`https://jsonplaceholder.typicode.com/photos/${top}`)
+            .then(response => {
+        let onePhoto = response.data;
+        this.setState({onePhoto: onePhoto,
+                      showPhoto: true})
+                    })
+                  }
+      )
+    }
+
     render() {
         let renderIt = this.state.photos.map(photo => {
-            return ( <
-                PaginDiv box = {
-                    photo.id
-                }
-                key = {
-                    photo.id
-                }
-
-                />
+            return (
+              <PaginDiv
+                box = {photo.id}
+                key = {photo.id}
+              />
             )
         })
-        const renderPhotos = this.state.photos.map(photo => {
-            return <Photo
-            title = {
-                photo.title
-            }
-            key = {
-                photo.id
-            }
+      let renderTitles = this.state.photos.map((el,i) => {
+            return (
+            <Photo
+              click={this.thisPhoto.bind(this, i)}
+              className={classes.Toggle}
+              title = {el.title}
+              key = {i}
+              enter={this.handleMouseHoverIn.bind(this)}
+              leave={this.handleMouseHoverOut.bind(this)}
 
             />
-        });
+          )
+        },this);
 
-        const onHover = this.state.photos.map(photo => {
-            return ( <
-                PhotosOnHover key = {
-                    photo.id
-                }
-                photoOnHover = {
-                    photo.url
-                }
-                />
-            )
-        });
-        return ( <
-            Layout >
-            <
-            div className = {
-                classes.LeftSide
-            } > {
-                renderPhotos
-            } <
-            /div> <
-            div className = {
-                classes.RightSide
-            } > {
-                onHover
-            } <
-            /div> <
-            button onClick = {
-                this.wstecz.bind(this)
-            } >
-            wstecz <
-            /button> {
-                renderIt
-            } <
-            button onClick = {
-                this.naprzod.bind(this)
-            } >
-            naprzód <
-            /button> <
-            /Layout>
+
+        return ( <Layout >
+
+            <div className = {classes.LeftSide}>
+              {renderTitles}
+            </div>
+            <div className={classes.RightSide}>
+            <PhotosOnHover
+              key={this.state.onePhoto['id']}
+              photoOnHover={this.state.onePhoto['thumbnailUrl']}
+              classN={this.state.showPhoto ? classes.Show : classes.Hide}
+            />
+            </div>
+            <div className={classes.Break}></div>
+            <button
+              onClick = {this.wstecz.bind(this)}
+            >
+            wstecz
+            </button>
+            {renderIt}
+            <button onClick = {this.naprzod.bind(this)}
+            >
+              naprzód
+            </button>
+            </Layout>
         );
     }
 }

@@ -3,9 +3,9 @@ import classes from './PhotosOnHover.css';
 
 const photosOnHover = (props) => {
   return(
-    <div className={classes.Row}>
+
+    <div className={props.classN}>
     <img
-      className={classes.Photo}
       src={props.photoOnHover} />
     </div>
   )

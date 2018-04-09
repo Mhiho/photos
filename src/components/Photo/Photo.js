@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import classes from './Photo.css'
 
 
-const photo = (props) => (
 
-  <div className={classes.Container}>
-    <div className={classes.Title}>{props.title}</div>
-    <img className={classes.Image} src={props.thumbnail} alt={props.alt}/>
+
+
+class Photo extends Component {
+  render() {
+
+  return(
+  <div
+  className={classes.Container}>
+    <div className={classes.Title}
+          onClick={this.props.click}
+    >
+    <a href="#">
+      {this.props.title}
+    </a>
+    </div>
+    <img className={this.props.classN} src={this.props.url}/>
   </div>
 )
+}
+}
 
-export default photo;
+export default Photo;
