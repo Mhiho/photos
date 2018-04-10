@@ -11,11 +11,10 @@
 
 .Title {
   width: 50%;
-  height: 60px;
-  font-size: 16px;
+  height: 40px;
+  font-size: 14px;
   display: flex;
   align-items: center;
-  margin-left: 5px;
 }
 
 
@@ -23,6 +22,7 @@
   margin-bottom: 100px;
   width: 50%;
   float: left;
+  min-height: 50px;
 }
 
 .Break {
@@ -32,8 +32,6 @@
 }
 
 .Photo {
-  width: 60px;
-  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,11 +39,62 @@
 
 
 .Show {
-  width: 60px;
-  height: 60px;
+  margin-left: 400px;
+  margin-top: 200px;
   display: block;
   float: left;
 }
 .Hide {
   display: none;
+}
+
+@keyframes change {
+0% {border-radius: 50%;
+    width: 60px;
+    height: 60px;}
+100% {border-radius: 0;
+      width: 150px;
+      height: 150px;}
+}
+
+.Big img{
+  animation: change 1.5s;
+}
+.Small img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+}
+
+.Pagin {
+  display: flex;
+
+}
+.LeftMargin, .RightMargin {
+  width: 30%;
+  display: flex;
+}
+.Pagin button {
+  font-family: 'Indie Flower', cursive;
+  width: 80px;
+  border: 1px solid navy;
+  background: cornflowerblue;
+}
+
+.Pagin button:hover {
+  background: lightblue;
+  color: white;
+}
+
+@media (max-width: 800px) {
+  .RightSide {
+    width: 100vw;
+  }
+  .Show {
+    margin-left: 200px;
+    margin-top: 0px;
+    display: block;
+    float: left;
+  }
 }

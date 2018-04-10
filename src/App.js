@@ -1,15 +1,14 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import Layout from './components/Layout/Layout';
 import axios from 'axios';
 import PaginDiv from './components/PaginDiv/PaginDiv';
 import Photo from './components/Photo/Photo';
 import classes from './App.css';
 import PhotosOnHover from './components/PhotosOnHover/PhotosOnHover';
-import _ from 'lodash';
-import {  BrowserRouter as Router, Link} from 'react-router-dom';
+import Header from './components/Header/Header';
 
 
-class App extends PureComponent {
+class App extends Component {
   constructor(props){
     super(props)
   }
@@ -18,7 +17,7 @@ class App extends PureComponent {
         initialPage: 1,
         ygrec: 12,
         hover: false,
-        thisPhoto: 0,
+        thisPhoto: 1,
         showPhoto: false,
         onePhoto: {}
     }
@@ -26,12 +25,6 @@ class App extends PureComponent {
         axios.get('https://jsonplaceholder.typicode.com/photos')
             .then(response => {
                 const photos = response.data;
-                let twelvePhotos = photos.map(photo => {
-                    return {
-                        ...photo
-                    }
-                });
-
                 this.setState({
                         initialPage: this.state.initialPage
                     },
@@ -54,12 +47,12 @@ class App extends PureComponent {
 
                 this.setState({
                         initialPage: this.state.initialPage - 1,
-                        thisPhoto: null,
+                        thisPhoto: 0,
                         showPhoto: false
                     },
                     () => this.setState({
-                        photos: photos.slice(this.state.initialPage * this.state.ygrec, this.state.initialPage * this.state.ygrec + this.state.ygrec).
-                        map((photo, id) => {
+                        photos: photos.slice(this.state.initialPage * this.state.ygrec, this.state.initialPage * this.state.ygrec + this.state.ygrec)
+                        .map((photo, id) => {
                             return { ...photo
                             }
                         })
@@ -76,7 +69,7 @@ class App extends PureComponent {
 
                 this.setState({
                         initialPage: this.state.initialPage + 1,
-                        thisPhoto: null,
+                        thisPhoto: 0,
                         showPhoto: false
                     },
                     () => this.setState({
@@ -97,6 +90,7 @@ class App extends PureComponent {
     handleMouseHoverOut() {
       this.setState({hover: false});
     }
+
     thisPhoto(i,event){
       this.setState({ thisPhoto: i},
       ()=> {
@@ -112,31 +106,33 @@ class App extends PureComponent {
     }
 
     render() {
-        let renderIt = this.state.photos.map(photo => {
+        let renderPagin = this.state.photos.map((photo, i) => {
             return (
               <PaginDiv
-                box = {photo.id}
-                key = {photo.id}
+                box={photo.id}
+                key={photo.id}
+                click={this.thisPhoto.bind(this, i+1)}
               />
             )
         })
       let renderTitles = this.state.photos.map((el,i) => {
             return (
             <Photo
-              click={this.thisPhoto.bind(this, i)}
+              click={this.thisPhoto.bind(this, i+1)}
               className={classes.Toggle}
               title = {el.title}
               key = {i}
-              enter={this.handleMouseHoverIn.bind(this)}
-              leave={this.handleMouseHoverOut.bind(this)}
-
             />
           )
         },this);
+        let classe = ({
+          cond: this.state.showPhoto ? classes.Show : classes.Hide,
+          condi: this.state.hover ? classes.Big : classes.Small
+        });
 
-
-        return ( <Layout >
-
+        return (
+          <Layout>
+            <Header />
             <div className = {classes.LeftSide}>
               {renderTitles}
             </div>
@@ -144,21 +140,26 @@ class App extends PureComponent {
             <PhotosOnHover
               key={this.state.onePhoto['id']}
               photoOnHover={this.state.onePhoto['thumbnailUrl']}
-              classN={this.state.showPhoto ? classes.Show : classes.Hide}
+              classN={[classe['cond'],classe['condi']].join(' ')}
+              enter={this.handleMouseHoverIn.bind(this)}
+              leave={this.handleMouseHoverOut.bind(this)}
             />
             </div>
             <div className={classes.Break}></div>
-            <button
-              onClick = {this.wstecz.bind(this)}
-            >
-            wstecz
-            </button>
-            {renderIt}
-            <button onClick = {this.naprzod.bind(this)}
-            >
-              naprzód
-            </button>
-            </Layout>
+
+            <div className={classes.Pagin}>
+                <div className={classes.LeftMargin}></div>
+                <button onClick = {this.wstecz.bind(this)}>
+                  wstecz
+                </button>
+            {renderPagin}
+                <button onClick = {this.naprzod.bind(this)}>
+                  naprzód
+                </button>
+                  <div className={classes.RightMargin}></div>
+            </div>
+
+          </Layout>
         );
     }
 }

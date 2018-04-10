@@ -12,13 +12,12 @@ class Photo extends Component {
   <div
   className={classes.Container}>
     <div className={classes.Title}
-          onClick={this.props.click}
-    >
+          onClick={this.props.click}>
     <a href="#">
       {this.props.title}
     </a>
     </div>
-    <img className={this.props.classN} src={this.props.url}/>
+    <img className={this.props.classN} src={this.props.photoOnHover} />
   </div>
 )
 }
